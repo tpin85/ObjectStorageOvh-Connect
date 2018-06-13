@@ -22,12 +22,12 @@ new Glibe\StorageConnetOvh($credentials)
 ### Exemple récupération info d'une ressource
 
 ```bash
-$api->getObjet('cdn','togo.jpg');
+$api->getObject('<container-name>','<object-name>');
 ```
 
 ### Exemple création d'une ressource
 Ici cdn est à remplacer par le token du site car c'est le nom du container
 
 ```bash
-$api->createObject('cdn','images/png/toto.png','files/togo.jpg');
+$api->createObject('<container-name>','<object-name>','<path-to-the-new-file>');
 ```
