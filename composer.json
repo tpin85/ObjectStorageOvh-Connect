@@ -1,0 +1,13 @@
+{
+    "name": "Glibe/StorageConnect",
+    "description": "Librairie pour interagir avec un object storage. Utilise l'api swift avec authentification v2 pour fonctionner avec OVH",
+    "require": {
+        "php-opencloud/openstack": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "PIN",
+            "email": "tpin@glibe.fr"
+        }
+    ]
+}
