@@ -11,11 +11,6 @@
             "Glibe\\": "src/"
         }
     },    
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.2"
-        }
-    },
     "authors": [
         {
             "name": "PIN",
