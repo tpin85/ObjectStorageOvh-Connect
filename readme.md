@@ -14,20 +14,38 @@ $credentials = [
     'username'        => "your-username",
     'password'        => "your-password",
     'tenantName'      => "your-tenant-name",
-]
+];
 
-new Glibe\StorageConnetOvh($credentials)
+$obj = new Glibe\StorageConnetOvh($credentials);
 ```
 
-### Exemple récupération info d'une ressource
+### Récupération info d'une ressource
 
 ```bash
-$api->getObject('<container-name>','<object-name>');
+$obj->getObject('<container-name>','<object-name>');
 ```
 
-### Exemple création d'une ressource
+### Création d'une ressource
 Ici cdn est à remplacer par le token du site car c'est le nom du container
 
 ```bash
-$api->createObject('<container-name>','<object-name>','<path-to-the-new-file>');
+$obj->createObject('<container-name>','<object-name>','<path-to-the-new-file>');
+```
+
+### Création d'une container
+Ici cdn est à remplacer par le token du site car c'est le nom du container
+
+Statut possible : public / private
+
+En public cela ajoute des metadatas pour faire du container un hébergement statique. (Voir site ovh)
+
+```bash
+$obj->createContainer('<container-name>','<statut>');
+```
+
+### Accès à un container
+Renvoie une instance du container souhaité
+
+```bash
+$obj->getContainer('<container-name>');
 ```
