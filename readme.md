@@ -19,21 +19,19 @@ $credentials = [
 $obj = new Glibe\StorageConnetOvh($credentials);
 ```
 
-### Récupération info d'une ressource
+### Récupération infos d'une ressource
 
 ```bash
 $obj->getObject('<container-name>','<object-name>');
 ```
 
 ### Création d'une ressource
-Ici cdn est à remplacer par le token du site car c'est le nom du container
 
 ```bash
 $obj->createObject('<container-name>','<object-name>','<path-to-the-new-file>');
 ```
 
 ### Création d'une container
-Ici cdn est à remplacer par le token du site car c'est le nom du container
 
 Statut possible : public / private
 
