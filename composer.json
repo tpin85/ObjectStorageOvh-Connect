@@ -10,10 +10,11 @@
         "psr-4": {
             "Glibe\\": "src/"
         }
-    },    
+    },   
+    "license": "MIT", 
     "authors": [
         {
-            "name": "PIN",
+            "name": "tpin",
             "email": "tpin@glibe.fr"
         }
     ]
