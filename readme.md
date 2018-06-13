@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-composer require 'GlibeFr\'
+composer require glibe/storageconnect-ovh
 ```
 ### Utilisation
 
