@@ -138,4 +138,13 @@ class StorageConnetOvh {
         return $object;
 
     }
+
+    /*
+    * Supprimer un objet (ressource image , pdf ...) dans un container donné
+    * 
+    */
+
+    public function deleteObject($container,$filename) {
+        return $this->getObject($container,$filename)->delete();
+    }
 }
