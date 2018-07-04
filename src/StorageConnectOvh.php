@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Stream;
 use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\Identity\v2\Service;
 use OpenStack\OpenStack;
-
+use Cocur\Slugify\Slugify;
 
 
 class StorageConnetOvh {
@@ -121,13 +121,14 @@ class StorageConnetOvh {
     * Param 3 : le chemin vers la ressource pour import
     */
     
-    public function createObject($container,$filename,$filepath) {
+    public function createObject($container,$filename,$filepath,$folder='') {
 
         //Création du stream
         $stream = new Stream(fopen($filepath, 'r'));
+        $slugify = new Slugify();
 
         $options = [
-            'name'   => $filename,
+            'name'   => trim($folder,'/') . '/' . $slugify->slugify($filename),
             'stream' => $stream,
         ];
 
@@ -137,14 +138,5 @@ class StorageConnetOvh {
 
         return $object;
 
-    }
-
-    /*
-    * Supprimer un objet (ressource image , pdf ...) dans un container donné
-    * 
-    */
-
-    public function deleteObject($container,$filename) {
-        return $this->getObject($container,$filename)->delete();
     }
 }
