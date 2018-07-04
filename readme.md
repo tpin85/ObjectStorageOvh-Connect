@@ -28,7 +28,14 @@ $obj->getObject('<container-name>','<object-name>');
 ### Création d'une ressource
 
 ```bash
-$obj->createObject('<container-name>','<object-name>','<path-to-the-new-file>');
+$obj->createObject('<container-name>','<object-name>','<path-to-the-new-file>','<folder-base>);
+```
+
+###### Exemple
+Pour créer un fichier qui aura pour référence /img/png/hello.png dans le container "cdn", la commande de création sera la suivante : 
+
+```bash
+$obj->createObject('cdn','hello.png','<path-to-the-new-file>','img/png');
 ```
 
 ### Création d'une container
@@ -46,4 +53,17 @@ Renvoie une instance du container souhaité
 
 ```bash
 $obj->getContainer('<container-name>');
+```
+
+### Supprimer un objet
+
+```bash
+$obj->deleteObject('<container-name>','<filename>');
+```
+
+###### Exemple
+Pour supprimer le fichier /img/png/hello.png dans le container "cdn", la commande de suppression sera la suivante : 
+
+```bash
+$obj->deleteObject('cdn','/img/png/hello.png');
 ```

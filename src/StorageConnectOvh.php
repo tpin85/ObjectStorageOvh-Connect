@@ -127,8 +127,10 @@ class StorageConnetOvh {
         $stream = new Stream(fopen($filepath, 'r'));
         $slugify = new Slugify();
 
+        $files = explode('.',$filename);
+
         $options = [
-            'name'   => trim($folder,'/') . '/' . $slugify->slugify($filename),
+            'name'   => trim($folder,'/') . '/' . $slugify->slugify($files[0]) . '.' . $files[1],
             'stream' => $stream,
         ];
 
@@ -139,4 +141,14 @@ class StorageConnetOvh {
         return $object;
 
     }
+
+    /*
+    * Supprimer un objet (ressource image , pdf ...) dans un container donné
+    * 
+    */
+
+    public function deleteObject($container,$filename) {
+        return $this->getObject($container,$filename)->delete();
+    }
+
 }
