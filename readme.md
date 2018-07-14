@@ -65,7 +65,7 @@ $obj->createContainer('<container-name>','<ovh_project_id>','<statut>');
 ###### Exemple
 
 ```bash
-$obj->createObject('testContainer','90b0b09604e74e4e8ade65xxxxxxxxx','public');
+$obj->createContainer('testContainer','90b0b09604e74e4e8ade65xxxxxxxxx','public');
 ```
 
 ### Accès à un container
