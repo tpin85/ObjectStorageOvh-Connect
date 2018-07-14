@@ -7,6 +7,10 @@ composer require glibe/storageconnect-ovh
 ```
 ### Utilisation
 
+Les éléments de connexion à openstack sont obligatoires. Les élèments de connexion à l'API d'OVH sont optionnels. Ils sont utilisés uniquement dans le cas d'une création de container. 
+
+La création des credentials pour utiliser l'api d'ovh se fait à cette url : [https://api.ovh.com/createToken/index.cgi?GET=/*&PUT=/*&POST=/*&DELETE=/*](https://api.ovh.com/createToken/index.cgi?GET=/*&PUT=/*&POST=/*&DELETE=/*)
+
 ```bash
 $credentials = [
     'authUrl'         => "https://auth.cloud.ovh.net/v2.0",
@@ -16,7 +20,14 @@ $credentials = [
     'tenantName'      => "your-tenant-name",
 ];
 
-$obj = new Glibe\StorageConnetOvh($credentials);
+$ovhCredentials = [
+    'application_key' => "XXXXXXXX",
+    'application_secret' => "XXXXXXXX",
+    'api_endpoint' => "XXXXXXXX", // ovh-eu for europe
+    'consumer_key' => "XXXXXXXX"
+];
+
+$obj = new Glibe\StorageConnetOvh($credentials,$ovhCredentials);
 ```
 
 ### Récupération infos d'une ressource
@@ -40,12 +51,21 @@ $obj->createObject('cdn','hello.png','<path-to-the-new-file>','img/png');
 
 ### Création d'une container
 
-Statut possible : public / private
+####### Statut possible : public / private
 
-En public cela ajoute des metadatas pour faire du container un hébergement statique. (Voir site ovh)
+En public cela fait container un hébergement statique. Les ressources seront alors accessiblent par une url publique. (Voir site ovh pour plus d'explication.) Par défaut le statut est à private.
+
+####### Ovh project ID
+L'identifiant unique de votre projet public cloud chez OVH. Disponible sous le nom de votre proejt dans votre interface client. 
 
 ```bash
-$obj->createContainer('<container-name>','<statut>');
+$obj->createContainer('<container-name>','<ovh_project_id>','<statut>');
+```
+
+###### Exemple
+
+```bash
+$obj->createObject('testContainer','90b0b09604e74e4e8ade65xxxxxxxxx','public');
 ```
 
 ### Accès à un container

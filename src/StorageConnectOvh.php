@@ -9,7 +9,7 @@ use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\Identity\v2\Service;
 use OpenStack\OpenStack;
 use Cocur\Slugify\Slugify;
-
+use Ovh\Api;
 
 class StorageConnetOvh {
 
@@ -23,7 +23,11 @@ class StorageConnetOvh {
     public $currentContainerName    = null;
     public $currentContainer        = null;
 
-    public function __construct($credentials) {
+    // OVH
+
+    public $ovh = null;
+
+    public function __construct($credentials, $ovhCredentials = null) {
 
         $this->authUrl      = $credentials['authUrl'];
         $this->region       = $credentials['region'];
@@ -32,7 +36,7 @@ class StorageConnetOvh {
         $this->tenantName   = $credentials['tenantName'];
         /*
         *
-        * AUTHENTIFICATION 
+        * AUTHENTIFICATION API OPENSTACK
         *
         */
 
@@ -52,30 +56,61 @@ class StorageConnetOvh {
 
         $this->openstack = new OpenStack($options);
 
+        /*
+        *
+        * AUTHENTIFICATION API OVH
+        *
+        */
+
+        if (!is_null($ovhCredentials)) {
+            $this->ovh = new Api( 
+                $ovhCredentials['application_key'],  // Application Key
+                $ovhCredentials['application_secret'],  // Application Secret
+                $ovhCredentials['api_endpoint'],      // Endpoint of API OVH Europe (List of available endpoints)
+                $ovhCredentials['consumer_key']); // Consumer Key
+    
+        }
+
     }
 
     /*
     * Créer un container
-    * Statut public ou private
+    * Statut public ou private - via OVH API
     */
 
-    public function createContainer($container_name,$statut) {
+    public function createContainer($container_name,$ovh_project_id = null,$statut = 'private') {
     
-        $creation  = $this->openstack->objectStoreV1()->createContainer(
-            ['name' => $container_name]);
-        
-        if ($statut == 'public') {
-            $options = [
-                'Web-Listings'      => "true",
-                'Web-Error'         => "error.html",
-                'Web-Listings-Css'  => "listing.css",
-                'Web-Index'         => "index.html"
-            ];
+        if ($this->ovh !== null) {
+            //Project id - if null, first ovh project is use.
+            if (is_null($ovh_project_id)) {
+                $projects = $this->ovh->get('/cloud/project');
+                $ovh_project_id = $projects[0];
+            }
 
-           $creation->resetMetadata($options); 
+            $create = $ovh->post('/cloud/project/' . $ovh_project_id . '/storage', array(
+                'archive' => false, // Archive container flag (type: boolean)
+                'containerName' => $container_name, // Container name (type: string)
+                'region' => $this->region, // Region (type: string)
+            ));
+
+            if ($create->getStatusCode() == 461) {
+                return "Already exist";
+            }
+
+            if ($statut == 'public') {
+                $ovh->post('/cloud/project/' . $ovh_project_id . '/storage/' . $create['id'] . '/static');
+                $create['public'] = true;
+
+            } else {
+                $create['public'] = false;
+            }
+
+            return $create;
+
+        } else {
+            return "OVH API NOT AVAILABLE";
         }
 
-        return $creation;
 
     }
 
@@ -122,6 +157,7 @@ class StorageConnetOvh {
     */
     
     public function createObject($container,$filename,$filepath,$folder='') {
+
         //Création du stream
         $stream = new Stream(fopen($filepath, 'r'));
         $slugify = new Slugify();
@@ -148,6 +184,12 @@ class StorageConnetOvh {
 
     public function deleteObject($container,$filename) {
         return $this->getObject($container,$filename)->delete();
+    }
+
+    public function getMeta($container) {
+        $object = $this->openstack->objectStoreV1();
+
+        return $object->getAccount();
     }
 
 }
