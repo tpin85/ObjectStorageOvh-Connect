@@ -87,7 +87,7 @@ class StorageConnetOvh {
                 $ovh_project_id = $projects[0];
             }
 
-            $create = $ovh->post('/cloud/project/' . $ovh_project_id . '/storage', array(
+            $create = $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage', array(
                 'archive' => false, // Archive container flag (type: boolean)
                 'containerName' => $container_name, // Container name (type: string)
                 'region' => $this->region, // Region (type: string)
@@ -98,7 +98,7 @@ class StorageConnetOvh {
             }
 
             if ($statut == 'public') {
-                $ovh->post('/cloud/project/' . $ovh_project_id . '/storage/' . $create['id'] . '/static');
+                $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage/' . $create['id'] . '/static');
                 $create['public'] = true;
 
             } else {
