@@ -122,7 +122,6 @@ class StorageConnetOvh {
     */
     
     public function createObject($container,$filename,$filepath,$folder='') {
-
         //Création du stream
         $stream = new Stream(fopen($filepath, 'r'));
         $slugify = new Slugify();
