@@ -5,7 +5,8 @@
     "require": {
         "php": "~7.0",
         "php-opencloud/openstack": "^3.0",
-        "cocur/slugify": "^3.1"
+        "cocur/slugify": "^3.1",
+        "ovh/ovh": "dev-master"
     },    
     "autoload": {
         "psr-4": {
