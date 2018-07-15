@@ -56,16 +56,16 @@ $obj->createObject('cdn','hello.png','<path-to-the-new-file>','img/png');
 En public cela fait container un hébergement statique. Les ressources seront alors accessiblent par une url publique. (Voir site ovh pour plus d'explication.) Par défaut le statut est à private.
 
 ####### Ovh project ID
-L'identifiant unique de votre projet public cloud chez OVH. Disponible sous le nom de votre proejt dans votre interface client. 
+L'identifiant unique de votre projet public cloud chez OVH. Disponible sous le nom de votre proejt dans votre interface client.  Si non définit, le premier projet disponible sera utilisé.
 
 ```bash
-$obj->createContainer('<container-name>','<ovh_project_id>','<statut>');
+$obj->createContainer('<container-name>','<statut> (default: private)','<ovh_project_id> (default: first available)');
 ```
 
 ###### Exemple
 
 ```bash
-$obj->createContainer('testContainer','90b0b09604e74e4e8ade65xxxxxxxxx','public');
+$obj->createContainer('testContainer','public','90b0b09604e74e4e8ade65xxxxxxxxx');
 ```
 
 ### Accès à un container

@@ -78,7 +78,7 @@ class StorageConnetOvh {
     * Statut public ou private - via OVH API
     */
 
-    public function createContainer($container_name,$ovh_project_id = null,$statut = 'private') {
+    public function createContainer($container_name, $statut = 'private', $ovh_project_id = null) {
     
         if ($this->ovh !== null) {
             //Project id - if null, first ovh project is use.
@@ -87,28 +87,53 @@ class StorageConnetOvh {
                 $ovh_project_id = $projects[0];
             }
 
-            $create = $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage', array(
-                'archive' => false, // Archive container flag (type: boolean)
-                'containerName' => $container_name, // Container name (type: string)
-                'region' => $this->region, // Region (type: string)
-            ));
+            // Container existe t'il déjà ?
+            $storageContainers = $this->ovh->get('/cloud/project/' . $ovh_project_id . '/storage');
 
-            if ($create->getStatusCode() == 461) {
-                return "Already exist";
+            $containerExist = false;
+
+            foreach ($storageContainers as $storageContainer) {
+                if ($storageContainer['name'] == $container_name) {
+                    $containerId = $storageContainer['id'];
+                    $containerExist = true;
+                    break; 
+                }
             }
 
-            if ($statut == 'public') {
-                $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage/' . $create['id'] . '/static');
-                $create['public'] = true;
+            if (!$containerExist) {
+                $create = $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage', array(
+                    'archive' => false, // Archive container flag (type: boolean)
+                    'containerName' => $container_name, // Container name (type: string)
+                    'region' => $this->region, // Region (type: string)
+                ));
+                $create['create'] = true;
 
+                if ($statut == 'public') {
+                    $this->ovh->post('/cloud/project/' . $ovh_project_id . '/storage/' . $create['id'] . '/static');
+                    $create['public'] = true;
+    
+                } else {
+                    $create['public'] = false;
+                }
+
+                return json_encode($create);
+    
             } else {
-                $create['public'] = false;
-            }
 
-            return $create;
+                return json_encode([
+                    'create' => false,
+                    'container_id' => $containerId,
+                    'result' => 'already exist'
+                ]);
+            }
+           
+            
 
         } else {
-            return "OVH API NOT AVAILABLE";
+            return json_encode([
+                'create' => false,
+                'result' => 'OVH API NOT AVAILABLE - OVH cred not send'
+            ]);
         }
 
 
