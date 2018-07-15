@@ -190,7 +190,7 @@ class StorageConnetOvh {
         $files = explode('.',$filename);
 
         $options = [
-            'name'   => trim($folder,'/') . '/' . $slugify->slugify($files[0]) . '.' . $files[1],
+            'name'   => trim($folder,'/') . '/' . $files[0] . '.' . $files[1],
             'stream' => $stream,
         ];
 
