@@ -189,7 +189,7 @@ class StorageConnetOvh {
 
         $files = explode('.',$filename);
         if ($folder == '') {
-            $name = $files[1];
+            $name = $files[0] . '.' . $files[1];
         } else {
             $name = trim($folder,'/') . '/' . $files[0] . '.' . $files[1];
         }
