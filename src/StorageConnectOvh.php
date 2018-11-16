@@ -188,9 +188,14 @@ class StorageConnetOvh {
         $slugify = new Slugify();
 
         $files = explode('.',$filename);
+        if ($folder == '') {
+            $name = $files[1];
+        } else {
+            $name = trim($folder,'/') . '/' . $files[0] . '.' . $files[1];
+        }
 
         $options = [
-            'name'   => trim($folder,'/') . '/' . $files[0] . '.' . $files[1],
+            'name'   => $name,
             'stream' => $stream,
         ];
 
@@ -215,6 +220,14 @@ class StorageConnetOvh {
         $object = $this->openstack->objectStoreV1();
 
         return $object->getAccount();
+    }
+
+    public function downloadObject($container,$objet) {
+        /** @var \GuzzleHttp\Stream\Stream $stream */
+        $stream = $this->openstack->objectStoreV1()
+        ->getContainer($container)->getObject($objet)->download();
+        //$stream->download();
+        return $stream;
     }
 
 }
