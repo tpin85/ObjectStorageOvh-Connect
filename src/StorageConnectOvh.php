@@ -199,10 +199,13 @@ class StorageConnetOvh {
             'stream' => $stream,
         ];
 
-        //Création objet
+        // Création objet
         /** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
         $object = $this->getContainer($container)->createObject($options);
 
+        // Fermeture du stream
+        $stream->close();
+        
         return $object;
 
     }
