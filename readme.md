@@ -11,10 +11,12 @@ Les éléments de connexion à openstack sont obligatoires. Les élèments de co
 
 La création des credentials pour utiliser l'api d'ovh se fait à cette url : [https://api.ovh.com/createToken/index.cgi?GET=/*&PUT=/*&POST=/*&DELETE=/*](https://api.ovh.com/createToken/index.cgi?GET=/*&PUT=/*&POST=/*&DELETE=/*)
 
+La librairie utilise l'authentification v3 d'openstack. 
+
 ```bash
 $credentials = [
-    'authUrl'         => "https://auth.cloud.ovh.net/v2.0",
-    'region'          => "GRA3",
+    'authUrl'         => "https://auth.cloud.ovh.net/v3",
+    'region'          => "GRA",
     'username'        => "your-username",
     'password'        => "your-password",
     'tenantName'      => "your-tenant-name",
