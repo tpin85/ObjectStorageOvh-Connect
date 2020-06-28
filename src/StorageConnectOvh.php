@@ -36,22 +36,23 @@ class StorageConnetOvh {
         $this->tenantName   = $credentials['tenantName'];
         /*
         *
-        * AUTHENTIFICATION API OPENSTACK
+        * AUTHENTIFICATION API OPENSTACK -- v3
         *
         */
-
-        $httpClient = new Client([
-            'base_uri' => TransportUtils::normalizeUrl($this->authUrl),
-            'handler'  => HandlerStack::create(),
-        ]);
         
         $options = [
             'authUrl'         => $this->authUrl,
             'region'          => $this->region,
-            'username'        => $this->username,
-            'password'        => $this->password,
-            'tenantName'      => $this->tenantName,
-            'identityService' => Service::factory($httpClient),
+            'user'            => [
+                'name'            => $this->username,
+                'domain'        => ['id' => 'default'],
+                'password'      => $this->password
+            ],
+            'scope'           => [
+                'project'       => [
+                    'name'          => $this->tenantName,
+                    'domain'        => ['id' => 'default']
+                    ]]
         ];
 
         $this->openstack = new OpenStack($options);
