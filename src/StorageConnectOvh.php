@@ -11,7 +11,7 @@ use OpenStack\OpenStack;
 use Cocur\Slugify\Slugify;
 use Ovh\Api;
 
-class StorageConnetOvh {
+class StorageConnectOvh {
 
     private $authUrl    = null;
     private $region     = null;
