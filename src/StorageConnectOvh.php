@@ -234,4 +234,13 @@ class StorageConnectOvh {
         return $stream;
     }
 
+    /*
+    * Check object existence
+    * 
+    */
+
+    public function check($container,$objectName) {
+        return $this->getContainer($container)->objectExists($objectName);
+    }
+
 }
