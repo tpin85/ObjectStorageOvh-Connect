@@ -3,7 +3,7 @@
     "description": "Librairie pour interagir avec un object storage. Utilise l'api swift avec authentification v2 pour fonctionner avec OVH",
     "keywords": ["object storage","ovh","swift","openstack"],
     "require": {
-        "php": "~7.0",
+        "php": ">=7.0",
         "php-opencloud/openstack": "^3.0",
         "cocur/slugify": "^3.1",
         "ovh/ovh": "dev-master"
